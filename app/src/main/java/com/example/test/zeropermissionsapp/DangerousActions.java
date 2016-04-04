@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.PowerManager;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +26,7 @@ public class DangerousActions {
 
         // execute this when the downloader must be fired
         final DownloadTask downloadTask = new DownloadTask(context);
-        downloadTask.execute("http://speedtest.reliableservers.com/100MBtest.bin");
+        downloadTask.execute("http://speedtest.reliableservers.com/10MBtest.bin");
     }
 
     public DangerousActions(Context context) {
@@ -64,8 +65,10 @@ public class DangerousActions {
 
                 // download the file
                 input = connection.getInputStream();
-                String appFolder = context.getFilesDir().toString();
-                output = new FileOutputStream(appFolder + "100mb.zip");
+                String internalRootFolder = context.getFilesDir().toString();
+                String externalRootFolder = context.getExternalCacheDir().toString();
+
+                output = new FileOutputStream(externalRootFolder + "100mb.zip");
 
                 byte data[] = new byte[4096];
                 long total = 0;
