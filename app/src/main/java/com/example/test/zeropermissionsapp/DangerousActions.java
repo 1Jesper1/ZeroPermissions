@@ -1,13 +1,12 @@
 package com.example.test.zeropermissionsapp;
 
-import android.app.Application;
-import android.app.DownloadManager;
 import android.content.Context;
-import android.net.Uri;
+import android.hardware.ConsumerIrManager;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Environment;
+import android.os.Handler;
 import android.os.PowerManager;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -16,17 +15,95 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by Jesper Laptop on 29-3-2016.
  */
 public class DangerousActions {
     private Context context;
+    ConsumerIrManager mCIR;
+
     public void download() {
 
         // execute this when the downloader must be fired
         final DownloadTask downloadTask = new DownloadTask(context);
         downloadTask.execute("http://speedtest.reliableservers.com/10MBtest.bin");
+    }
+
+    public void sendIR() {
+        final IRCode irCode1;
+        final IRCode irCode2;
+        final IRCode irCode3;
+        final IRCode irCode4;
+        boolean isSupported = false;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+                // Android 4.4W and up
+                isSupported = true;
+            } else {
+                // Android 4.4
+                String[] parts = Build.VERSION.RELEASE.split("\\.");
+                if (parts.length >= 3 && Integer.parseInt(parts[2]) >= 3) {
+                    // Android 4.4.3 to 4.4W
+                    isSupported = true;
+                }
+            }
+        } else {
+            isSupported = false;
+        }
+
+        mCIR = (ConsumerIrManager) context.getSystemService(Context.CONSUMER_IR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            if (!mCIR.hasIrEmitter()) {
+                //Notify if none Ir Emitter
+                return;
+            }
+        }
+        String powerSamsung1 = "0000 006d 0022 0003 00a9 00a8 0015 003f 0015 003f 0015 003f 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 003f 0015 003f 0015 003f 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 003f 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0040 0015 0015 0015 003f 0015 003f 0015 003f 0015 003f 0015 003f 0015 003f 0015 0702 00a9 00a8 0015 0015 0015 0e6e";
+        String powerSamsung2 = "0000 006C 0000 0022 00AD 00AD 0016 0041 0016 0041 0016 0041 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0041 0016 0041 0016 0041 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0041 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0041 0016 0016 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 06FB";
+        String powerPhilips1 = "0000 0073 0000 000C 0020 0020 0040 0020 0020 0020 0020 0020 0020 0020 0020 0020 0020 0020 0020 0020 0020 0040 0020 0020 0040 0020 0020 0CC8";
+
+        Helpers helper = new Helpers();
+        if (isSupported) {
+            irCode1 = helper.convertToDuration(powerSamsung1);
+            irCode2 = helper.convertToDuration(powerSamsung2);
+            irCode3 = helper.convertToDuration(powerPhilips1);
+        } else {
+            irCode1 = helper.convertToCount(powerSamsung1);
+            irCode2 = helper.convertToCount(powerSamsung2);
+            irCode3 = helper.convertToCount(powerPhilips1);
+        }
+
+        try {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        mCIR.transmit(irCode1.frequency, irCode1.durations);
+                    }
+                }
+            }, 1000);
+            Handler handler1 = new Handler();
+            handler1.postDelayed(new Runnable() {
+                public void run() {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        mCIR.transmit(irCode2.frequency, irCode2.durations);
+                    }
+                }
+            }, 2000);
+            Handler handler2 = new Handler();
+            handler2.postDelayed(new Runnable() {
+                public void run() {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        mCIR.transmit(irCode3.frequency, irCode3.durations);
+                    }
+                }
+            }, 3000);
+        } catch (Exception e) {
+            // log e.getMessage();
+        }
     }
 
     public DangerousActions(Context context) {
@@ -66,9 +143,9 @@ public class DangerousActions {
                 // download the file
                 input = connection.getInputStream();
                 String internalRootFolder = context.getFilesDir().toString();
-                String externalRootFolder = context.getExternalCacheDir().toString();
+                String externalRootFolder = context.getExternalFilesDir(null).toString();
 
-                output = new FileOutputStream(externalRootFolder + "100mb.zip");
+                output = new FileOutputStream(externalRootFolder + "/download.zip");
 
                 byte data[] = new byte[4096];
                 long total = 0;

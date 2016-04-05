@@ -12,7 +12,9 @@ import android.view.MenuItem;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    Button button;
+    Button buttonStart;
+    Button buttonPower;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +24,22 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Locate the button in activity_main.xml
-        button = (Button) findViewById(R.id.button);
+        buttonStart = (Button) findViewById(R.id.buttonStart);
+        buttonPower = (Button) findViewById(R.id.buttonPower);
 
         // Capture button clicks
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonStart.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 DangerousActions da = new DangerousActions(getApplicationContext());
                 da.download();
+            }
+        });
+
+        // Capture button clicks
+        buttonPower.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                DangerousActions da = new DangerousActions(getApplicationContext());
+                da.sendIR();
             }
         });
     }

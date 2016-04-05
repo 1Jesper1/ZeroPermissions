@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ZeroPermissionsApp.iml" filepath="$PROJECT_DIR$/ZeroPermissionsApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ZeroPermissions.iml" filepath="$PROJECT_DIR$/ZeroPermissions.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
