@@ -1,12 +1,16 @@
 package com.example.test.zeropermissionsapp;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.hardware.ConsumerIrManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,14 +25,11 @@ import java.util.List;
  * Created by Jesper Laptop on 29-3-2016.
  */
 public class DangerousActions {
-    private Context context;
+    private Context mContext;
     ConsumerIrManager mCIR;
 
-    public void download() {
-
-        // execute this when the downloader must be fired
-        final DownloadTask downloadTask = new DownloadTask(context);
-        downloadTask.execute("http://speedtest.reliableservers.com/10MBtest.bin");
+    public DangerousActions(Context context) {
+        this.mContext = context;
     }
 
     public void sendIR() {
@@ -54,7 +55,7 @@ public class DangerousActions {
             isSupported = false;
         }
 
-        mCIR = (ConsumerIrManager) context.getSystemService(Context.CONSUMER_IR_SERVICE);
+        mCIR = (ConsumerIrManager) mContext.getSystemService(Context.CONSUMER_IR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (!mCIR.hasIrEmitter()) {
                 //Notify if none Ir Emitter
@@ -106,17 +107,34 @@ public class DangerousActions {
         }
     }
 
-    public DangerousActions(Context context) {
-        this.context = context;
+    public void download() {
+
+        // execute this when the downloader must be fired
+        final DownloadTask downloadTask = new DownloadTask(mContext);
+        downloadTask.execute("http://speedtest.reliableservers.com/10MBtest.bin");
     }
 
     private class DownloadTask extends AsyncTask<String, Integer, String> {
-
-        private Context context;
+        private Context mContext;
+        private ProgressDialog mProgressDialog;
         private PowerManager.WakeLock mWakeLock;
 
         public DownloadTask(Context context) {
-            this.context = context;
+            this.mContext = context;
+            final DownloadTask downloadTask = this;
+
+            mProgressDialog = new ProgressDialog(mContext);
+            mProgressDialog.setMessage("A message");
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    downloadTask.cancel(true);
+                    Toast.makeText(mContext, "Download cancelled: ", Toast.LENGTH_LONG).show();
+                }
+            });
         }
 
         @Override
@@ -142,8 +160,8 @@ public class DangerousActions {
 
                 // download the file
                 input = connection.getInputStream();
-                String internalRootFolder = context.getFilesDir().toString();
-                String externalRootFolder = context.getExternalFilesDir(null).toString();
+                String internalRootFolder = mContext.getFilesDir().toString();
+                String externalRootFolder = mContext.getExternalFilesDir(null).toString();
 
                 output = new FileOutputStream(externalRootFolder + "/download.zip");
 
@@ -177,6 +195,35 @@ public class DangerousActions {
                     connection.disconnect();
             }
             return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                    getClass().getName());
+            mWakeLock.acquire();
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... progress) {
+            super.onProgressUpdate(progress);
+            // if we get here, length is known, now set indeterminate to false
+            mProgressDialog.setIndeterminate(false);
+            mProgressDialog.setMax(100);
+            mProgressDialog.setProgress(progress[0]);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            mWakeLock.release();
+            mProgressDialog.dismiss();
+            if (result != null)
+                Toast.makeText(mContext, "Download error: " + result, Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(mContext,"File downloaded", Toast.LENGTH_LONG).show();
         }
     }
 }
