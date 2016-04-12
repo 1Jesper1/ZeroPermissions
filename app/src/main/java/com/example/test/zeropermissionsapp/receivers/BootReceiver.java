@@ -8,6 +8,8 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.widget.Toast;
 
+import com.example.test.zeropermissionsapp.MainActivity;
+
 import java.lang.reflect.Method;
 
 /**
@@ -21,6 +23,11 @@ public class BootReceiver extends BroadcastReceiver {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
         NetworkInfo mMobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        Intent activityIntent = new Intent(context, MainActivity.class);
+        activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(activityIntent);
+        Toast.makeText(context, "Started activity after boot", Toast.LENGTH_LONG).show();
 
         if (activeNetwork != null) {
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
@@ -57,7 +64,6 @@ public class BootReceiver extends BroadcastReceiver {
             Toast.makeText(context, "No network!!!!!" + intent.getAction(), Toast.LENGTH_LONG).show();
         }
         }
-
     }
 }
 
