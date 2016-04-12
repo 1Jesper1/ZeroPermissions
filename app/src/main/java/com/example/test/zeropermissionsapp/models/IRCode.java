@@ -1,4 +1,4 @@
-package com.example.test.zeropermissionsapp;
+package com.example.test.zeropermissionsapp.models;
 
 /**
  * Created by Jesper Laptop on 5-4-2016.

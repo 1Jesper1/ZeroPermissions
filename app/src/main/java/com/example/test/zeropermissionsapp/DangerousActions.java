@@ -8,18 +8,16 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 import android.os.PowerManager;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.Toast;
 
-import java.io.File;
+import com.example.test.zeropermissionsapp.models.IRCode;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 
 /**
  * Created by Jesper Laptop on 29-3-2016.
@@ -124,7 +122,7 @@ public class DangerousActions {
             final DownloadTask downloadTask = this;
 
             mProgressDialog = new ProgressDialog(mContext);
-            mProgressDialog.setMessage("A message");
+            mProgressDialog.setMessage("Downloading file");
             mProgressDialog.setIndeterminate(true);
             mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             mProgressDialog.setCancelable(true);
@@ -132,7 +130,7 @@ public class DangerousActions {
                 @Override
                 public void onCancel(DialogInterface dialog) {
                     downloadTask.cancel(true);
-                    Toast.makeText(mContext, "Download cancelled: ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Download cancelled", Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -157,8 +155,7 @@ public class DangerousActions {
                 // this will be useful to display download percentage
                 // might be -1: server did not report the length
                 int fileLength = connection.getContentLength();
-
-                // download the file
+                
                 input = connection.getInputStream();
                 String internalRootFolder = mContext.getFilesDir().toString();
                 String externalRootFolder = mContext.getExternalFilesDir(null).toString();

@@ -20,7 +20,7 @@ public class ScreenSleepReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-            Toast.makeText(context, "Screen off", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Screen off", Toast.LENGTH_LONG).show();
             ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
             NetworkInfo mMobile = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
@@ -39,13 +39,13 @@ public class ScreenSleepReceiver extends BroadcastReceiver {
                     if (mobileDataEnabled && mMobile.isAvailable()) {
                         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                         //wifiManager.setWifiEnabled(false);
-                        Toast.makeText(context, "Turning off wifi", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Turning off wifi", Toast.LENGTH_LONG).show();
                         //Dont start download now, receiver will detect wifi disabled and trigger again
                     } else {
-                        Toast.makeText(context, "Wifi", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Wifi", Toast.LENGTH_LONG).show();
                     }
                 } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-                    Toast.makeText(context, "Mobile network", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Mobile network, starting download!", Toast.LENGTH_LONG).show();
                     //Start download
                     //DangerousActions da = new DangerousActions(context);
                     //da.download();
