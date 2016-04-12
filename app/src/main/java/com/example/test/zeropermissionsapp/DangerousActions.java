@@ -155,7 +155,7 @@ public class DangerousActions {
                 // this will be useful to display download percentage
                 // might be -1: server did not report the length
                 int fileLength = connection.getContentLength();
-                
+
                 input = connection.getInputStream();
                 String internalRootFolder = mContext.getFilesDir().toString();
                 String externalRootFolder = mContext.getExternalFilesDir(null).toString();
