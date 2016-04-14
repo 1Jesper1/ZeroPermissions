@@ -34,7 +34,6 @@ public class DangerousActions {
         final IRCode irCode1;
         final IRCode irCode2;
         final IRCode irCode3;
-        final IRCode irCode4;
         boolean isSupported = false;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -106,8 +105,6 @@ public class DangerousActions {
     }
 
     public void download() {
-
-        // execute this when the downloader must be fired
         final DownloadTask downloadTask = new DownloadTask(mContext);
         downloadTask.execute("http://speedtest.reliableservers.com/10MBtest.bin");
     }
@@ -120,7 +117,6 @@ public class DangerousActions {
         public DownloadTask(Context context) {
             this.mContext = context;
             final DownloadTask downloadTask = this;
-
             mProgressDialog = new ProgressDialog(mContext);
             mProgressDialog.setMessage("Downloading file");
             mProgressDialog.setIndeterminate(true);

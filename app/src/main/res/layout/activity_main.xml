@@ -24,21 +24,47 @@
     <include layout="@layout/content_main" />
 
     <Button
-        android:id="@+id/buttonStart"
+        android:id="@+id/buttonDownloadStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="150dp"
-        android:text="Start" />
+        android:text="Start Download" />
 
     <Button
-        android:id="@+id/buttonPower"
+        android:id="@+id/buttonIRStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonStart"
-        android:layout_marginTop="25dp"
+        android:layout_below="@+id/buttonDownloadStart"
         android:layout_centerHorizontal="true"
-        android:text="TV power" />
+        android:layout_marginTop="25dp"
+        android:text="Infrared start" />
+
+    <Button
+        android:id="@+id/buttonAutoStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonIRStart"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="AutoStart" />
+
+    <Button
+        android:id="@+id/buttonPreventClose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonAutoStart"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:text="Prevent close" />
+
+    <TextView
+        android:id="@+id/informationText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/buttonPreventClose"
+        android:layout_marginTop="25dp" />
+
 
 </RelativeLayout>

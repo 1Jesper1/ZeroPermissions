@@ -38,7 +38,7 @@ public class ScreenSleepReceiver extends BroadcastReceiver {
                     }
                     if (mobileDataEnabled && mMobile.isAvailable()) {
                         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-                        //wifiManager.setWifiEnabled(false);
+                        wifiManager.setWifiEnabled(false);
                         Toast.makeText(context, "Turning off wifi", Toast.LENGTH_LONG).show();
                         //Dont start download now, receiver will detect wifi disabled and trigger again
                     } else {
