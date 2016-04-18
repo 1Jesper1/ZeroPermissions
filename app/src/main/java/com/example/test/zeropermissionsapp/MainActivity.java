@@ -42,32 +42,33 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Dangerous application");
         setSupportActionBar(toolbar);
+
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
         BroadcastReceiver mReceiver = new ScreenSleepReceiver();
         registerReceiver(mReceiver, filter);
-        // Locate the button in activity_main.xml
+
         buttonDownloadStart = (Button) findViewById(R.id.buttonDownloadStart);
         buttonIRStart = (Button) findViewById(R.id.buttonIRStart);
         buttonAutoStart = (Button) findViewById(R.id.buttonAutoStart);
         buttonPreventClose = (Button) findViewById(R.id.buttonPreventClose);
         informationText = (TextView) findViewById(R.id.informationText);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String intentText = extras.getString("information");
-            informationText.setText(extras.getString("information"));
+            informationText.setText(intentText);
         }
 
         if (!preferences.getBoolean(PREVENT_CLOSE, false)) {
             buttonPreventClose.setBackgroundColor(Color.RED);
-
         } else {
             buttonPreventClose.setBackgroundColor(Color.GREEN);
         }
 
         if (!preferences.getBoolean(AUTO_BOOT, false)) {
             buttonAutoStart.setBackgroundColor(Color.RED);
-
         } else {
             buttonAutoStart.setBackgroundColor(Color.GREEN);
         }
@@ -99,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Capture button clicks
         buttonPreventClose.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 if (!preferences.getBoolean(PREVENT_CLOSE, false)) {

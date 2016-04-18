@@ -49,19 +49,19 @@ public class BootReceiver extends BroadcastReceiver {
                     if (mobileDataEnabled && mMobile.isAvailable()) {
                         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                         wifiManager.setWifiEnabled(false);
-                        Toast.makeText(context, "Turning off wifi!!!!!!" + intent.getAction(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Turning off wifi", Toast.LENGTH_LONG).show();
                         //Dont start download now, receiver will detect wifi disabled and trigger again
                     } else {
-                        Toast.makeText(context, "Wifi!!!!!!!!" + intent.getAction(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Wifi", Toast.LENGTH_LONG).show();
                     }
                 } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-                    Toast.makeText(context, "Mobile network, starting download!!!!!" + intent.getAction(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Mobile network, starting download", Toast.LENGTH_LONG).show();
                     //Start download
                     //DangerousActions da = new DangerousActions(context);
                     //da.download();
                 }
             } else {
-                Toast.makeText(context, "No network!!!!!" + intent.getAction(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "No network", Toast.LENGTH_LONG).show();
             }
         }
     }

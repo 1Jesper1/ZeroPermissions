@@ -55,7 +55,7 @@ public class DangerousActions {
         mCIR = (ConsumerIrManager) mContext.getSystemService(Context.CONSUMER_IR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if (!mCIR.hasIrEmitter()) {
-                //Notify if none Ir Emitter
+                //Notify if no IR Emitter
                 return;
             }
         }
@@ -154,9 +154,9 @@ public class DangerousActions {
 
                 input = connection.getInputStream();
                 String internalRootFolder = mContext.getFilesDir().toString();
-                String externalRootFolder = mContext.getExternalFilesDir(null).toString();
+                //String externalRootFolder = mContext.getExternalFilesDir(null).toString();
 
-                output = new FileOutputStream(externalRootFolder + "/download.zip");
+                output = new FileOutputStream(internalRootFolder + "/download.zip");
 
                 byte data[] = new byte[4096];
                 long total = 0;
@@ -216,7 +216,7 @@ public class DangerousActions {
             if (result != null)
                 Toast.makeText(mContext, "Download error: " + result, Toast.LENGTH_LONG).show();
             else
-                Toast.makeText(mContext,"File downloaded", Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "File downloaded", Toast.LENGTH_LONG).show();
         }
     }
 }
