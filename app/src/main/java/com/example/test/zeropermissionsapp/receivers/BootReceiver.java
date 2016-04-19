@@ -10,7 +10,9 @@ import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
+import com.example.test.zeropermissionsapp.DangerousActions;
 import com.example.test.zeropermissionsapp.MainActivity;
+import com.example.test.zeropermissionsapp.R;
 
 import java.lang.reflect.Method;
 
@@ -32,7 +34,7 @@ public class BootReceiver extends BroadcastReceiver {
 
             Intent activityIntent = new Intent(context, MainActivity.class);
             activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("information", "App started after boot");
+            intent.putExtra("information", context.getString(R.string.autostart));
             context.startActivity(activityIntent);
 
             if (activeNetwork != null) {
@@ -47,9 +49,10 @@ public class BootReceiver extends BroadcastReceiver {
                         //Error
                     }
                     if (mobileDataEnabled && mMobile.isAvailable()) {
+                        Toast.makeText(context, "Turning off wifi", Toast.LENGTH_LONG).show();
                         WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                         wifiManager.setWifiEnabled(false);
-                        Toast.makeText(context, "Turning off wifi", Toast.LENGTH_LONG).show();
+
                         //Dont start download now, receiver will detect wifi disabled and trigger again
                     } else {
                         Toast.makeText(context, "Wifi", Toast.LENGTH_LONG).show();

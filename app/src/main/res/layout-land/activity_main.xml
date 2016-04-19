@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
-        android:id="@+id/view">
+        android:id="@+id/view2">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -31,57 +31,59 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_above="@+id/buttonDownloadStart"
-        android:layout_below="@+id/view"
-        android:text="@string/description" />
+        android:layout_below="@+id/view2"
+        android:text="@string/description"/>
 
     <Button
         android:id="@+id/buttonDownloadStart"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Start Download"
-        android:layout_above="@+id/buttonIRStart"
+        android:layout_above="@+id/buttonAutoStart"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/buttonIRStart"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Infrared start"
-        android:layout_above="@+id/buttonAutoStart"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/buttonDownloadStart"
+        android:layout_toRightOf="@+id/buttonDownloadStart"
+        android:layout_toEndOf="@+id/buttonDownloadStart" />
 
     <Button
         android:id="@+id/buttonAutoStart"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="AutoStart"
-        android:layout_above="@+id/buttonPreventClose"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25px"
+        android:layout_toRightOf="@+id/buttonPreventClose"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/buttonIRStart"
+        android:layout_toStartOf="@+id/buttonIRStart" />
 
     <Button
         android:id="@+id/buttonPreventClose"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Prevent close"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="25px"/>
+        android:layout_below="@+id/buttonDownloadStart"
+        android:layout_toRightOf="@+id/buttonDownloadStart"
+        android:layout_alignRight="@+id/buttonIRStart"
+        android:layout_alignEnd="@+id/buttonIRStart" />
 
     <Button
         android:id="@+id/buttonWasteData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Waste data"
-        android:layout_above="@+id/buttonDownloadStart"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_above="@+id/buttonPreventClose"
+        android:layout_toRightOf="@+id/buttonIRStart"
+        android:layout_toEndOf="@+id/buttonIRStart" />
 
 
 </RelativeLayout>

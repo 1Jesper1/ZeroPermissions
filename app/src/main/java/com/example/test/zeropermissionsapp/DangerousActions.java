@@ -3,6 +3,7 @@ package com.example.test.zeropermissionsapp;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.ConsumerIrManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -213,10 +214,17 @@ public class DangerousActions {
         protected void onPostExecute(String result) {
             mWakeLock.release();
             mProgressDialog.dismiss();
-            if (result != null)
+            if (result != null) {
                 Toast.makeText(mContext, "Download error: " + result, Toast.LENGTH_LONG).show();
-            else
+                System.err.println("DOWNLOAD ERROR!!!!!: " + result);
+            }else {
                 Toast.makeText(mContext, "File downloaded", Toast.LENGTH_LONG).show();
+                System.out.println("Download complete!");
+                Intent intent = new Intent(this.mContext, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("information", this.mContext.getString(R.string.download));
+                this.mContext.startActivity(intent);
+            }
         }
     }
 }

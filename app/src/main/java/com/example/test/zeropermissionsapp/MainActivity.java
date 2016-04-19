@@ -30,9 +30,11 @@ public class MainActivity extends AppCompatActivity {
     Button buttonIRStart;
     Button buttonAutoStart;
     Button buttonPreventClose;
+    Button buttonWasteData;
     TextView informationText;
     public static final String AUTO_BOOT = "autoBoot";
     public static final String PREVENT_CLOSE = "preventClose";
+    public static final String WASTE_DATA = "wasteData";
 
 
     @Override
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         buttonIRStart = (Button) findViewById(R.id.buttonIRStart);
         buttonAutoStart = (Button) findViewById(R.id.buttonAutoStart);
         buttonPreventClose = (Button) findViewById(R.id.buttonPreventClose);
+        buttonWasteData= (Button) findViewById(R.id.buttonWasteData);
         informationText = (TextView) findViewById(R.id.informationText);
 
         Bundle extras = getIntent().getExtras();
@@ -73,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
             buttonAutoStart.setBackgroundColor(Color.GREEN);
         }
 
+        if (!preferences.getBoolean(WASTE_DATA, false)) {
+            buttonWasteData.setBackgroundColor(Color.RED);
+        } else {
+            buttonWasteData.setBackgroundColor(Color.GREEN);
+        }
+
         buttonDownloadStart.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 DangerousActions da = new DangerousActions(MainActivity.this);
@@ -84,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 DangerousActions da = new DangerousActions(MainActivity.this);
                 da.sendIR();
-                informationText.setText("Sending infrared signals");
+                informationText.setText(getResources().getString(R.string.transmit_ir));
             }
         });
 
@@ -92,9 +101,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 if (!preferences.getBoolean(AUTO_BOOT, false)) {
                     preferences.edit().putBoolean(AUTO_BOOT, true).apply();
+                    informationText.setText("The application will now start when the device starts");
                     buttonAutoStart.setBackgroundColor(Color.GREEN);
                 } else {
                     preferences.edit().putBoolean(AUTO_BOOT, false).apply();
+                    informationText.setText("The application will not start when the device starts");
                     buttonAutoStart.setBackgroundColor(Color.RED);
                 }
             }
@@ -104,10 +115,26 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 if (!preferences.getBoolean(PREVENT_CLOSE, false)) {
                     preferences.edit().putBoolean(PREVENT_CLOSE, true).apply();
+                    informationText.setText("The application will now prevent the app from closing");
                     buttonPreventClose.setBackgroundColor(Color.GREEN);
                 } else {
                     preferences.edit().putBoolean(PREVENT_CLOSE, false).apply();
+                    informationText.setText("The application will now allow the app to close");
                     buttonPreventClose.setBackgroundColor(Color.RED);
+                }
+            }
+        });
+
+        buttonWasteData.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                if (!preferences.getBoolean(WASTE_DATA, false)) {
+                    preferences.edit().putBoolean(WASTE_DATA, true).apply();
+                    buttonWasteData.setBackgroundColor(Color.GREEN);
+                    informationText.setText("The application will download when the screen is off. This will use your mobile data, if available. (Might cost YOU money)");
+                } else {
+                    preferences.edit().putBoolean(WASTE_DATA, false).apply();
+                    buttonWasteData.setBackgroundColor(Color.RED);
+                    informationText.setText("The application won't download when the screen is off.");
                 }
             }
         });
@@ -116,9 +143,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (preferences.getBoolean(PREVENT_CLOSE, false)) {
+            System.out.print("Backbutton");
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("information", "Back button prevented");
+            intent.putExtra("information", getResources().getString(R.string.backbutton_prevented));
             this.startActivity(intent);
         } else {
             super.onBackPressed();
@@ -132,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPause();
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("information", "App close prevented");
+            intent.putExtra("information", getResources().getString(R.string.onpause_prevented));
             this.startActivity(intent);
         } else {
             super.onPause();
@@ -145,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
             super.onDestroy();
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("information", "App destroy prevented");
+            intent.putExtra("information", getResources().getString(R.string.ondestroy_prevented));
             this.startActivity(intent);
         } else {
             super.onDestroy();

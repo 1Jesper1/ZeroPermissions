@@ -39,9 +39,10 @@ public class NetworkWifiReceiver extends BroadcastReceiver {
                     //Error
                 }
                 if (mobileDataEnabled && mMobile.isAvailable()) {
-                    WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-                    wifiManager.setWifiEnabled(false);
                     Toast.makeText(context, "Turning off wifi", Toast.LENGTH_LONG).show();
+                    //Turned off the disabling of wifi here for testing.
+                    /*WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                    wifiManager.setWifiEnabled(false);*/
                     //Dont start download now, receiver will detect wifi disabled and trigger again
                 } else {
                     Toast.makeText(context, "Wifi", Toast.LENGTH_LONG).show();
