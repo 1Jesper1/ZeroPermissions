@@ -48,6 +48,11 @@ public class ScreenSleepReceiver extends BroadcastReceiver {
                             wifiManager.setWifiEnabled(false);
                             Toast.makeText(context, "Turning off wifi", Toast.LENGTH_LONG).show();
                             System.out.println("Downloading in the background now!!!!");
+                            try {
+                                Thread.sleep(1000);
+                            } catch(InterruptedException ex) {
+                                Thread.currentThread().interrupt();
+                            }
                             DangerousActions da = new DangerousActions(context);
                             da.download();
                             //Turn wifi back on, so the user doesn't realize what happened (doesn't work since it's asynchronous).
