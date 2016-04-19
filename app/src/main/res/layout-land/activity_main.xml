@@ -38,7 +38,7 @@
         android:id="@+id/buttonDownloadStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Download"
+        android:text="@string/start_download"
         android:layout_above="@+id/buttonAutoStart"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
@@ -48,18 +48,19 @@
         android:id="@+id/buttonIRStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Infrared start"
+        android:text="@string/infrared_start"
         android:layout_alignTop="@+id/buttonDownloadStart"
         android:layout_toRightOf="@+id/buttonDownloadStart"
-        android:layout_toEndOf="@+id/buttonDownloadStart" />
+        android:layout_toEndOf="@+id/buttonDownloadStart"
+        android:layout_marginLeft="5dp" />
 
     <Button
         android:id="@+id/buttonAutoStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="AutoStart"
+        android:text="@string/auto_start"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="25px"
+        android:layout_marginBottom="5dp"
         android:layout_toRightOf="@+id/buttonPreventClose"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -70,20 +71,22 @@
         android:id="@+id/buttonPreventClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Prevent close"
+        android:text="@string/prevent_close"
         android:layout_below="@+id/buttonDownloadStart"
         android:layout_toRightOf="@+id/buttonDownloadStart"
         android:layout_alignRight="@+id/buttonIRStart"
-        android:layout_alignEnd="@+id/buttonIRStart" />
+        android:layout_alignEnd="@+id/buttonIRStart"
+        android:layout_marginLeft="5dp" />
 
     <Button
         android:id="@+id/buttonWasteData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Waste data"
+        android:text="@string/waste_data"
         android:layout_above="@+id/buttonPreventClose"
         android:layout_toRightOf="@+id/buttonIRStart"
-        android:layout_toEndOf="@+id/buttonIRStart" />
+        android:layout_toEndOf="@+id/buttonIRStart"
+        android:layout_marginLeft="5dp" />
 
 
 </RelativeLayout>

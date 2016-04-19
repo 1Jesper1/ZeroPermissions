@@ -54,11 +54,9 @@ public class DangerousActions {
         }
 
         mCIR = (ConsumerIrManager) mContext.getSystemService(Context.CONSUMER_IR_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if (!mCIR.hasIrEmitter()) {
-                //Notify if no IR Emitter
-                return;
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !mCIR.hasIrEmitter()) {
+            System.err.println("No IR transmitter available on this device.");
+            return;
         }
         String powerSamsung1 = "0000 006d 0022 0003 00a9 00a8 0015 003f 0015 003f 0015 003f 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 003f 0015 003f 0015 003f 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 003f 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0040 0015 0015 0015 003f 0015 003f 0015 003f 0015 003f 0015 003f 0015 003f 0015 0702 00a9 00a8 0015 0015 0015 0e6e";
         String powerSamsung2 = "0000 006C 0000 0022 00AD 00AD 0016 0041 0016 0041 0016 0041 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0041 0016 0041 0016 0041 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0041 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0041 0016 0016 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 06FB";
@@ -78,6 +76,7 @@ public class DangerousActions {
         try {
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
+                @Override
                 public void run() {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         mCIR.transmit(irCode1.frequency, irCode1.durations);
@@ -86,6 +85,7 @@ public class DangerousActions {
             }, 1000);
             Handler handler1 = new Handler();
             handler1.postDelayed(new Runnable() {
+                @Override
                 public void run() {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         mCIR.transmit(irCode2.frequency, irCode2.durations);
@@ -94,6 +94,7 @@ public class DangerousActions {
             }, 2000);
             Handler handler2 = new Handler();
             handler2.postDelayed(new Runnable() {
+                @Override
                 public void run() {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                         mCIR.transmit(irCode3.frequency, irCode3.durations);
@@ -101,7 +102,7 @@ public class DangerousActions {
                 }
             }, 3000);
         } catch (Exception e) {
-            // log e.getMessage();
+            System.err.println(e.getMessage());
         }
     }
 
@@ -159,7 +160,7 @@ public class DangerousActions {
 
                 output = new FileOutputStream(internalRootFolder + "/download.zip");
 
-                byte data[] = new byte[4096];
+                byte[] data = new byte[4096];
                 long total = 0;
                 int count;
                 while ((count = input.read(data)) != -1) {
@@ -174,6 +175,7 @@ public class DangerousActions {
                         publishProgress((int) (total * 100 / fileLength));
                     output.write(data, 0, count);
                 }
+                output.close();
             } catch (Exception e) {
                 return e.toString();
             } finally {
@@ -222,7 +224,7 @@ public class DangerousActions {
                 System.out.println("Download complete!");
                 Intent intent = new Intent(this.mContext, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("information", this.mContext.getString(R.string.download));
+                intent.putExtra("information", this.mContext.getString(R.string.download_info));
                 this.mContext.startActivity(intent);
             }
         }
