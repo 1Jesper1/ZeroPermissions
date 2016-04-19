@@ -9,4 +9,9 @@
     <string name="transmit_ir">The app is sending IR signals in an attempt to shut down your TV.</string>
     <string name="download">The app has downloaded a 10MB test file. This requires the INTERNET permission.</string>
     <string name="waste_data">This button allows the app to switch off your wifi and will download a file using your mobile data. It will do this only when you the screen is off. This relies on WAKE_LOCK, ACCESS_NETWORK_STATE and CHANGE_WIFI_STATE</string>
+    <string name="start_download">Start download</string>
+    <string name="infrared_start">Infrared start</string>
+    <string name="auto_start">AutoStart</string>
+    <string name="prevent_close">Prevent close</string>
+    <string name="wastedata">Waste data</string>
 </resources>
