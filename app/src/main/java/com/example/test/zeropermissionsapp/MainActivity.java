@@ -1,6 +1,8 @@
 package com.example.test.zeropermissionsapp;
 
 import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +25,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.test.zeropermissionsapp.receivers.AlarmReceiver;
 import com.example.test.zeropermissionsapp.receivers.ScreenSleepReceiver;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonIRStart;
     Button buttonAutoStart;
     Button buttonPreventClose;
+    Button buttonSetAlarm;
     Button buttonWasteData;
     TextView informationText;
     public static final String AUTO_BOOT = "autoBoot";
@@ -56,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         buttonAutoStart = (Button) findViewById(R.id.buttonAutoStart);
         buttonPreventClose = (Button) findViewById(R.id.buttonPreventClose);
         buttonWasteData= (Button) findViewById(R.id.buttonWasteData);
+        buttonSetAlarm= (Button) findViewById(R.id.buttonSetAlarm);
         informationText = (TextView) findViewById(R.id.informationText);
 
         Bundle extras = getIntent().getExtras();
@@ -136,6 +142,17 @@ public class MainActivity extends AppCompatActivity {
                     buttonWasteData.setBackgroundColor(Color.RED);
                     informationText.setText("The application won't download when the screen is off.");
                 }
+            }
+        });
+
+        buttonSetAlarm.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Intent AlarmIntent = new Intent(arg0.getContext(), AlarmReceiver.class);
+                PendingIntent Sender = PendingIntent.getBroadcast(arg0.getContext(), 0, AlarmIntent, 0);
+                AlarmManager AlmMgr = (AlarmManager)getSystemService(ALARM_SERVICE);
+                AlmMgr.set(AlarmManager.RTC, System.currentTimeMillis() +
+                        (5 * 1000), Sender);
+                Toast.makeText(getBaseContext(), "Set alarm", Toast.LENGTH_SHORT).show();
             }
         });
     }
