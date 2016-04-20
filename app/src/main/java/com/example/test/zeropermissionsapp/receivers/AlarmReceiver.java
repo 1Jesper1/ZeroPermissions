@@ -34,7 +34,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             builder.setContentTitle("Annoying User")
                     .setContentText("Annoyed yet?")
                     .setSmallIcon(R.drawable.ic_alarm_black_24dp)
-                    .setSound(Uri.parse("android.resource://com.example.test.zeropermissionsapp/raw/lesbian_gta4"))
+                    //.setSound(Uri.parse("android.resource://com.example.test.zeropermissionsapp/raw/lesbian_gta4"))
+                    .setSound(Uri.parse("android.resource://com.example.test.zeropermissionsapp/raw/epic"))
                     .setVibrate(new long[]{500, 500, 500, 500, 500, 500, 500, 500, 500})
                     .setWhen(System.currentTimeMillis());
             Notification notification = builder.build();

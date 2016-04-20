@@ -52,7 +52,8 @@
         android:layout_alignTop="@+id/buttonDownloadStart"
         android:layout_toRightOf="@+id/buttonDownloadStart"
         android:layout_toEndOf="@+id/buttonDownloadStart"
-        android:layout_marginLeft="5dp" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp" />
 
     <Button
         android:id="@+id/buttonAutoStart"
@@ -86,7 +87,28 @@
         android:layout_above="@+id/buttonPreventClose"
         android:layout_toRightOf="@+id/buttonIRStart"
         android:layout_toEndOf="@+id/buttonIRStart"
-        android:layout_marginLeft="5dp" />
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp" />
+    <Button
+        android:id="@+id/buttonAnnoyUser"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="@string/annoy_user"
+        android:layout_below="@+id/buttonWasteData"
+        android:layout_alignLeft="@+id/buttonWasteData"
+        android:layout_alignStart="@+id/buttonWasteData"
+        android:layout_alignRight="@+id/buttonWasteData"
+        android:layout_alignEnd="@+id/buttonWasteData" />
+
+    <Button
+        android:id="@+id/buttonSetAlarm"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/set_alarm"
+        android:layout_below="@+id/informationText"
+        android:layout_toRightOf="@+id/buttonWasteData"
+        android:layout_toEndOf="@+id/buttonWasteData"
+        android:layout_marginBottom="5dp" />
 
 
 </RelativeLayout>

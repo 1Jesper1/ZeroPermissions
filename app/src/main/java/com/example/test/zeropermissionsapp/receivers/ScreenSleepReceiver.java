@@ -78,7 +78,7 @@ public class ScreenSleepReceiver extends BroadcastReceiver {
                 Toast.makeText(context, "No network", Toast.LENGTH_LONG).show();
             }
 
-            if(preferences.getBoolean(MainActivity.ANNOY_USER, false) || true){
+            if(preferences.getBoolean(MainActivity.ANNOY_USER, false)){
                 Intent AlarmIntent = new Intent(context, AlarmReceiver.class);
                 PendingIntent Sender = PendingIntent.getBroadcast(context, 0, AlarmIntent, 0);
                 AlarmManager AlmMgr = (AlarmManager)context.getSystemService(MainActivity.ALARM_SERVICE);
