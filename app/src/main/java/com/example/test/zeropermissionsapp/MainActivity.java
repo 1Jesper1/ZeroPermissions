@@ -26,12 +26,14 @@ public class MainActivity extends AppCompatActivity {
     Button buttonAutoStart;
     Button buttonPreventClose;
     Button buttonSetAlarm;
+    Button buttonAnnoyUser;
     Button buttonWasteData;
     TextView informationText;
     public static final String AUTO_BOOT = "autoBoot";
     public static final String PREVENT_CLOSE = "preventClose";
     public static final String WASTE_DATA = "wasteData";
     public static final String INFORMATION = "information";
+    public static final String ANNOY_USER = "annoyUser";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         buttonPreventClose = (Button) findViewById(R.id.buttonPreventClose);
         buttonWasteData= (Button) findViewById(R.id.buttonWasteData);
         buttonSetAlarm= (Button) findViewById(R.id.buttonSetAlarm);
+        buttonAnnoyUser= (Button) findViewById(R.id.buttonAnnoyUser);
         informationText = (TextView) findViewById(R.id.informationText);
 
         Bundle extras = getIntent().getExtras();
@@ -76,6 +79,12 @@ public class MainActivity extends AppCompatActivity {
             buttonWasteData.setBackgroundColor(Color.RED);
         } else {
             buttonWasteData.setBackgroundColor(Color.GREEN);
+        }
+
+        if (!preferences.getBoolean(ANNOY_USER, false)) {
+            buttonAnnoyUser.setBackgroundColor(Color.RED);
+        } else {
+            buttonAnnoyUser.setBackgroundColor(Color.GREEN);
         }
 
         buttonDownloadStart.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +143,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        buttonAnnoyUser.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                if (!preferences.getBoolean(ANNOY_USER, false)) {
+                    preferences.edit().putBoolean(ANNOY_USER, true).apply();
+                    buttonAnnoyUser.setBackgroundColor(Color.GREEN);
+                    informationText.setText(getResources().getString(R.string.annoy_user_on));
+                } else {
+                    preferences.edit().putBoolean(ANNOY_USER, false).apply();
+                    buttonAnnoyUser.setBackgroundColor(Color.RED);
+                    informationText.setText(getResources().getString(R.string.annoy_user_off));
+                }
+            }
+        });
+
 
         buttonSetAlarm.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {

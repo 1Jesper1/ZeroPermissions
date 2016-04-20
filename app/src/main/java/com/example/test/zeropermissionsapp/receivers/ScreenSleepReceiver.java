@@ -1,5 +1,7 @@
 package com.example.test.zeropermissionsapp.receivers;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import com.example.test.zeropermissionsapp.DangerousActions;
 import com.example.test.zeropermissionsapp.MainActivity;
 
 import java.lang.reflect.Method;
+import java.util.Random;
 
 /**
  * Created by Jesper Laptop on 11-4-2016.
@@ -73,6 +76,14 @@ public class ScreenSleepReceiver extends BroadcastReceiver {
                 }
             } else {
                 Toast.makeText(context, "No network", Toast.LENGTH_LONG).show();
+            }
+
+            if(preferences.getBoolean(MainActivity.ANNOY_USER, false) || true){
+                Intent AlarmIntent = new Intent(context, AlarmReceiver.class);
+                PendingIntent Sender = PendingIntent.getBroadcast(context, 0, AlarmIntent, 0);
+                AlarmManager AlmMgr = (AlarmManager)context.getSystemService(MainActivity.ALARM_SERVICE);
+                AlmMgr.set(AlarmManager.RTC, System.currentTimeMillis() +
+                        (5+(int)(Math.random()*10) * 1000), Sender);
             }
         }
     }

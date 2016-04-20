@@ -16,10 +16,14 @@
     <string name="waste_data_off">The app will not download files in the background.</string>
     <string name="prevent_close_on">The application will now prevent the app from closing</string>
     <string name="prevent_close_off">The application will now allow the app to close</string>
+    <string name="annoy_user_on">Annoy the user with random noises</string>
+    <string name="annoy_user_off">The application will not annoy the user with random noises</string>
     <!-- Button strings -->
     <string name="start_download">Start download</string>
     <string name="infrared_start">Infrared start</string>
     <string name="auto_start">AutoStart</string>
     <string name="prevent_close">Prevent close</string>
     <string name="waste_data">Waste data</string>
+    <string name="annoy_user">Annoy user</string>
+    <string name="set_alarm">Set alarm</string>
 </resources>

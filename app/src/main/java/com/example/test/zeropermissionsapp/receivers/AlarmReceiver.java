@@ -31,10 +31,10 @@ public class AlarmReceiver extends BroadcastReceiver {
             PendingIntent Sender = PendingIntent.getActivity(context, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-            builder.setContentTitle("Wake up alarm")
-                    .setContentText("Now playing sound and vibrating")
+            builder.setContentTitle("Annoying User")
+                    .setContentText("Annoyed yet?")
                     .setSmallIcon(R.drawable.ic_alarm_black_24dp)
-                    .setSound(Uri.parse("android.resource://com.example.test.zeropermissionsapp/raw/epic"))
+                    .setSound(Uri.parse("android.resource://com.example.test.zeropermissionsapp/raw/lesbian_gta4"))
                     .setVibrate(new long[]{500, 500, 500, 500, 500, 500, 500, 500, 500})
                     .setWhen(System.currentTimeMillis());
             Notification notification = builder.build();
