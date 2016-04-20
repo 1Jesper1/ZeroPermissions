@@ -1,29 +1,19 @@
 package com.example.test.zeropermissionsapp;
 
-import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.test.zeropermissionsapp.receivers.AlarmReceiver;
 import com.example.test.zeropermissionsapp.receivers.ScreenSleepReceiver;
@@ -40,16 +30,15 @@ public class MainActivity extends AppCompatActivity {
     public static final String AUTO_BOOT = "autoBoot";
     public static final String PREVENT_CLOSE = "preventClose";
     public static final String WASTE_DATA = "wasteData";
-
+    public static final String INFORMATION = "information";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Dangerous application");
+        toolbar.setTitle(getResources().getString(R.string.toolbar_title));
         setSupportActionBar(toolbar);
-
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
@@ -66,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String intentText = extras.getString("information");
+            String intentText = extras.getString(INFORMATION);
             informationText.setText(intentText);
         }
 
@@ -99,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 DangerousActions da = new DangerousActions(MainActivity.this);
                 da.sendIR();
-                informationText.setText(getResources().getString(R.string.transmit_ir));
+                informationText.setText(getResources().getString(R.string.infrared_info));
             }
         });
 
@@ -107,11 +96,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 if (!preferences.getBoolean(AUTO_BOOT, false)) {
                     preferences.edit().putBoolean(AUTO_BOOT, true).apply();
-                    informationText.setText("The application will now start when the device starts");
+                    informationText.setText(getResources().getString(R.string.auto_start_on));
                     buttonAutoStart.setBackgroundColor(Color.GREEN);
                 } else {
                     preferences.edit().putBoolean(AUTO_BOOT, false).apply();
-                    informationText.setText("The application will not start when the device starts");
+                    informationText.setText(getResources().getString(R.string.auto_start_off));
                     buttonAutoStart.setBackgroundColor(Color.RED);
                 }
             }
@@ -121,11 +110,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 if (!preferences.getBoolean(PREVENT_CLOSE, false)) {
                     preferences.edit().putBoolean(PREVENT_CLOSE, true).apply();
-                    informationText.setText("The application will now prevent the app from closing");
+                    informationText.setText(getResources().getString(R.string.prevent_close_on));
                     buttonPreventClose.setBackgroundColor(Color.GREEN);
                 } else {
                     preferences.edit().putBoolean(PREVENT_CLOSE, false).apply();
-                    informationText.setText("The application will now allow the app to close");
+                    informationText.setText(getResources().getString(R.string.prevent_close_off));
                     buttonPreventClose.setBackgroundColor(Color.RED);
                 }
             }
@@ -136,11 +125,11 @@ public class MainActivity extends AppCompatActivity {
                 if (!preferences.getBoolean(WASTE_DATA, false)) {
                     preferences.edit().putBoolean(WASTE_DATA, true).apply();
                     buttonWasteData.setBackgroundColor(Color.GREEN);
-                    informationText.setText("The application will download when the screen is off. This will use your mobile data, if available. (Might cost YOU money)");
+                    informationText.setText(getResources().getString(R.string.waste_data_on));
                 } else {
                     preferences.edit().putBoolean(WASTE_DATA, false).apply();
                     buttonWasteData.setBackgroundColor(Color.RED);
-                    informationText.setText("The application won't download when the screen is off.");
+                    informationText.setText(getResources().getString(R.string.waste_data_off));
                 }
             }
         });
@@ -152,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 AlarmManager AlmMgr = (AlarmManager)getSystemService(ALARM_SERVICE);
                 AlmMgr.set(AlarmManager.RTC, System.currentTimeMillis() +
                         (5 * 1000), Sender);
-                Toast.makeText(getBaseContext(), "Set alarm", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -160,10 +148,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (preferences.getBoolean(PREVENT_CLOSE, false)) {
-            System.out.print("Backbutton");
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("information", getResources().getString(R.string.backbutton_prevented));
+            intent.putExtra(INFORMATION, getResources().getString(R.string.backbutton_prevented));
             this.startActivity(intent);
         } else {
             super.onBackPressed();
@@ -177,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPause();
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("information", getResources().getString(R.string.onpause_prevented));
+            intent.putExtra(INFORMATION, getResources().getString(R.string.onpause_prevented));
             this.startActivity(intent);
         } else {
             super.onPause();
@@ -190,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
             super.onDestroy();
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("information", getResources().getString(R.string.ondestroy_prevented));
+            intent.putExtra(INFORMATION, getResources().getString(R.string.ondestroy_prevented));
             this.startActivity(intent);
         } else {
             super.onDestroy();

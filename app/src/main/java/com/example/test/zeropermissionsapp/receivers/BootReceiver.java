@@ -10,7 +10,6 @@ import android.net.wifi.WifiManager;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
-import com.example.test.zeropermissionsapp.DangerousActions;
 import com.example.test.zeropermissionsapp.MainActivity;
 import com.example.test.zeropermissionsapp.R;
 
@@ -34,7 +33,7 @@ public class BootReceiver extends BroadcastReceiver {
 
             Intent activityIntent = new Intent(context, MainActivity.class);
             activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("information", context.getString(R.string.autostart));
+            intent.putExtra("information", context.getString(R.string.auto_start_info));
             context.startActivity(activityIntent);
 
             if (activeNetwork != null) {

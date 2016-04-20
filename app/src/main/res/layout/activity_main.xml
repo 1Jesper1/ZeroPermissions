@@ -50,28 +50,32 @@
         android:id="@+id/buttonDownloadStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start Download"
+        android:text="@string/start_download"
         android:layout_above="@+id/buttonIRStart"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="25px"/>
+        android:layout_marginBottom="25px"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="false" />
 
     <Button
         android:id="@+id/buttonIRStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Infrared start"
+        android:text="@string/infrared_start"
         android:layout_above="@+id/buttonAutoStart"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="25px"/>
+        android:layout_marginBottom="25px"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="false" />
 
     <Button
         android:id="@+id/buttonAutoStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="AutoStart"
+        android:text="@string/auto_start"
         android:layout_above="@+id/buttonPreventClose"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -81,7 +85,7 @@
         android:id="@+id/buttonPreventClose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Prevent close"
+        android:text="@string/prevent_close"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -91,7 +95,7 @@
         android:id="@+id/buttonWasteData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Waste data"
+        android:text="@string/waste_data"
         android:layout_above="@+id/buttonDownloadStart"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
