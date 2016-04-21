@@ -7,6 +7,7 @@ The app is able to demonstrate various malicious features.
 -  Prevent closing the app.  
 -  Send infrared signals, in an attempt to shut down televisions.  
 -  Download data.  
+-  Setting an alarm and volume.
   
 This is accomplished using these permissions:  
 -  INTERNET  
