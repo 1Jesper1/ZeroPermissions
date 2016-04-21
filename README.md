@@ -15,3 +15,4 @@ This is accomplished using these permissions:
 -  ACCESS_NETWORK_STATE  
 -  CHANGE_WIFI_STATE  
 -  RECEIVE_BOOT_COMPLETED  
+-  SET_ALARM
